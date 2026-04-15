@@ -1,0 +1,207 @@
+@use "sass:color";
+
+$slate-950: #020617;
+$slate-900: #0f172a;
+$slate-800: #1e293b;
+$primary: #006ce4;
+$accent: #00f2fe;
+
+.sidebar-brand {
+  padding: 2.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  
+  .logo-box {
+    width: 3rem;
+    height: 3rem;
+    background-color: $primary;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: white;
+    box-shadow: 0 4px 12px rgba($primary, 0.3);
+  }
+  
+  .brand-text {
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin: 0;
+      line-height: 1;
+      text-transform: uppercase;
+      font-style: italic;
+    }
+    span {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      opacity: 0.4;
+    }
+  }
+}
+
+.nav-section {
+  padding: 0 1.25rem;
+  flex: 1;
+  overflow-y: auto;
+  
+  .nav-group-label {
+    font-size: 0.6rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    opacity: 0.25;
+    margin: 2rem 0 1rem 1rem;
+  }
+}
+
+.nav-item-industrial {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.25rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    .icon-wrapper { color: $primary; transform: scale(1.1); }
+  }
+  
+  &.active {
+    background-color: rgba($primary, 0.1);
+    color: white;
+    
+    &::before {
+      content: "";
+      position: absolute;
+      left: -1.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 60%;
+      background-color: $primary;
+      border-radius: 0 4px 4px 0;
+      box-shadow: 0 0 15px $primary;
+    }
+    
+    .icon-wrapper { color: $primary; }
+  }
+  
+  .icon-wrapper {
+    transition: all 0.3s ease;
+    opacity: 0.8;
+  }
+  
+  span {
+    font-size: 0.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+}
+
+.user-profile-bar {
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  
+  .user-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    
+    .avatar-circle {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background-color: $primary;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.8rem;
+    }
+    
+    .user-info {
+      overflow: hidden;
+      h4 {
+        font-size: 0.85rem;
+        font-weight: 900;
+        margin: 0;
+        text-transform: uppercase;
+        italic: true;
+        truncate: true;
+      }
+      p {
+        font-size: 0.65rem;
+        font-weight: 700;
+        opacity: 0.4;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+    }
+  }
+}
+
+.status-header-modern {
+  height: 80px;
+  background-color: var(--metro-panel);
+  border-bottom: 1px solid var(--metro-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  
+  .header-path {
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 950;
+      text-transform: uppercase;
+      font-style: italic;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .breadcrumbs {
+      font-size: 0.65rem;
+      font-weight: 800;
+      opacity: 0.3;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-top: 0.25rem;
+    }
+  }
+  
+  .header-stats {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    
+    .stat-item {
+      text-align: right;
+      .val { font-weight: 900; font-size: 1rem; line-height: 1; }
+      .lbl { font-size: 0.6rem; font-weight: 800; opacity: 0.4; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.2rem; }
+    }
+  }
+}

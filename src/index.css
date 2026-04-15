@@ -1,0 +1,205 @@
+@import "tailwindcss";
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+@theme {
+  --color-metro-primary: #00458e; 
+  --color-metro-primary-light: #006ce4;
+  --color-metro-danger: #d90429;
+  --color-metro-success: #2b9348;
+  --color-metro-warning: #ffb703;
+  --color-metro-slate-50: #f8fafc;
+  --color-metro-slate-100: #f1f5f9;
+  --color-metro-slate-200: #e2e8f0;
+  --color-metro-slate-800: #1e293b;
+  --color-metro-slate-900: #0f172a;
+  --color-metro-slate-950: #020617;
+  
+  --animate-fade-in: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+:root {
+  --metro-bg: #f8fafc;
+  --metro-fg: #0f172a;
+  --metro-panel: #ffffff;
+  --metro-border: #e2e8f0;
+  --metro-accent: #006ce4;
+  --metro-sidebar: #020617;
+  --metro-sidebar-fg: #f1f5f9;
+}
+
+.dark {
+  --metro-bg: #020617;
+  --metro-fg: #f1f5f9;
+  --metro-panel: #0f172a;
+  --metro-border: #1e293b;
+  --metro-accent: #3b82f6;
+  --metro-sidebar: #010409;
+  --metro-sidebar-fg: #f1f5f9;
+}
+
+body {
+  background-color: var(--metro-bg);
+  color: var(--metro-fg);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+/* Industrial Layout Utilities */
+.sidebar-fixed {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 280px;
+  background-color: var(--metro-sidebar);
+  color: var(--metro-sidebar-fg);
+  z-index: 1000;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-wrapper {
+  margin-left: 280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--metro-bg);
+  transition: margin-left 0.4s ease;
+}
+
+@media (max-width: 1024px) {
+  .sidebar-fixed { transform: translateX(-280px); }
+  .main-wrapper { margin-left: 0; }
+  .sidebar-open .sidebar-fixed { transform: translateX(0); }
+}
+
+/* Specific UI Tokens */
+.card-metro {
+  background-color: var(--metro-panel);
+  border: 1px solid var(--metro-border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.card-metro:hover {
+  border-color: var(--metro-accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.btn-metro-primary {
+  background-color: var(--metro-accent);
+  color: white;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.btn-metro-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 69, 142, 0.2);
+}
+
+.input-metro-industrial {
+  background-color: var(--metro-panel);
+  border: 1px solid var(--metro-border);
+  border-radius: 0.5rem;
+  padding: 0.85rem 1rem;
+  width: 100%;
+  color: var(--metro-fg);
+  font-weight: 500;
+  transition: border-color 0.2s ease;
+}
+
+.input-metro-industrial:focus {
+  border-color: var(--metro-accent);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 108, 228, 0.1);
+}
+
+/* Theme utility helpers */
+.bg-metro-card {
+  background-color: var(--metro-panel) !important;
+}
+.text-metro-fg, .text-metro-foreground {
+  color: var(--metro-fg) !important;
+}
+
+.text-metro-foreground\/40 {
+  color: rgba(15, 23, 42, 0.4) !important;
+}
+
+.dark .text-metro-foreground\/40 {
+  color: rgba(241, 245, 249, 0.6) !important;
+}
+
+.bg-metro-bg {
+  background-color: var(--metro-bg) !important;
+}
+.bg-metro-panel {
+  background-color: var(--metro-panel) !important;
+}
+.bg-metro-border {
+  border-color: var(--metro-border) !important;
+}
+.bg-metro-accent {
+  background-color: var(--metro-accent) !important;
+}
+.bg-metro-sidebar {
+  background-color: var(--metro-sidebar) !important;
+}
+
+/* Dark mode background and border fallbacks */
+.dark .bg-white {
+  background-color: var(--metro-panel) !important;
+}
+.dark .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.dark .bg-slate-50 {
+  background-color: var(--metro-sidebar) !important;
+}
+.dark .bg-slate-100 {
+  background-color: var(--metro-panel) !important;
+}
+.dark .bg-slate-100\/50 {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+.dark .border-slate-200 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* The "Metro Line" Indicator */
+.line-indicator {
+  position: absolute;
+  left: 0;
+  width: 4px;
+  background-color: var(--metro-accent);
+  border-radius: 0 4px 4px 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scrollbar Refinement */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.4); }
