@@ -189,3 +189,59 @@ $white: #ffffff;
     }
   }
 }
+
+// Modal Styles
+.modal-metro {
+  .modal-content {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2.5rem;
+    overflow: hidden;
+    color: white;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  .icon-badge {
+    width: 80px;
+    height: 80px;
+    background: rgba($primary, 0.1);
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba($primary, 0.2);
+  }
+
+  .btn-metro {
+    border-radius: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-style: italic;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &.btn-primary {
+      background: $primary;
+      border: none;
+      box-shadow: 0 10px 20px rgba($primary, 0.3);
+      
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba($primary, 0.4);
+        background: lighten($primary, 5%);
+      }
+    }
+    
+    &.btn-outline {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+      }
+    }
+  }
+}

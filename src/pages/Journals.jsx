@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
-import { Container, Row, Col, Card, Button, Badge, Form, InputGroup, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Badge, Form, InputGroup, Spinner, Modal } from 'react-bootstrap';
 import { BookOpen, Search, Plus, ArrowRight, History, ClipboardList, X, Filter, ChevronRight, FileText, CheckCircle2 } from 'lucide-react';
 import axios from '../api/axios';
 import JournalForm from '../components/JournalForm';
 import JournalHistory from '../components/JournalHistory';
+import OpenDU5Tracker from '../components/OpenDU5Tracker';
 import './Journals.scss';
 
 const Journals = () => {
   const [journalTypes, setJournalTypes] = useState([]);
   const [selectedType, setSelectedType] = useState(null);
-  const [view, setView] = useState('list'); // 'list', 'create', 'history'
+  const [view, setView] = useState('list'); // 'list', 'create', 'history', 'active'
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showDU2Modal, setShowDU2Modal] = useState(false);
+  const [du2Action, setDu2Action] = useState('');
 
   useEffect(() => {
     fetchJournalTypes();
@@ -36,7 +39,7 @@ const Journals = () => {
   );
 
   const sortedTypes = [...filteredTypes].sort((a, b) => {
-    const order = ['DU-2', 'DU-5'];
+    const order = ['DU-2', 'DU-5', 'DU-19'];
     const aIndex = order.indexOf(a.code);
     const bIndex = order.indexOf(b.code);
     if (aIndex !== -1 || bIndex !== -1) {
@@ -48,8 +51,20 @@ const Journals = () => {
   });
 
   const handleSelectType = (type) => {
-    setSelectedType(type);
+    if (type.code === 'DU-2') {
+      setSelectedType(type);
+      setShowDU2Modal(true);
+    } else {
+      setSelectedType(type);
+      setView('create');
+      setDu2Action('');
+    }
+  };
+
+  const handleDU2ActionSelect = (action) => {
+    setDu2Action(action);
     setView('create');
+    setShowDU2Modal(false);
   };
 
   if (loading) {
@@ -65,7 +80,7 @@ const Journals = () => {
 
   return (
     <div className="journals-container">
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {view === 'list' && (
           <motion.div
             key="list"
@@ -80,12 +95,18 @@ const Journals = () => {
                   <p>Hujjatlarni rasmiylashtirish va hisobotlar markazi</p>
                 </div>
                 <div className="flex gap-3">
-                   <Button 
+                  <Button 
+                    onClick={() => setView('active')}
+                    className={`btn-metro px-6 py-2.5 ${view === 'active' ? 'btn-primary' : 'btn-ghost'}`}
+                  >
+                    <Plus size={16} /> Faol Jurnallar
+                  </Button>
+                  <Button 
                     onClick={() => setView('history')}
-                    className="btn-metro btn-ghost px-6 py-2.5"
-                   >
-                     <History size={16} /> Tarix
-                   </Button>
+                    className={`btn-metro px-6 py-2.5 ${view === 'history' ? 'btn-primary' : 'btn-ghost'}`}
+                  >
+                    <History size={16} /> Tarix
+                  </Button>
                 </div>
               </div>
             </div>
@@ -136,7 +157,7 @@ const Journals = () => {
           </motion.div>
         )}
 
-        {(view === 'create' || view === 'history') && (
+        {(view === 'create' || view === 'history' || view === 'active') && (
           <motion.div
             key="form"
             initial={{ opacity: 0, x: 20 }}
@@ -153,10 +174,10 @@ const Journals = () => {
               </Button>
               <div>
                 <h3 className="text-2xl font-black uppercase italic m-0">
-                  {view === 'create' ? `YANGI YOZUV: ${selectedType?.name}` : 'STANSIYA TARIXI'}
+                  {view === 'create' ? `YANGI YOZUV: ${selectedType?.name}` : view === 'active' ? 'YOPILMAGAN JURNALLAR' : 'STANSIYA TARIXI'}
                 </h3>
                 <p className="text-[10px] font-black uppercase tracking-widest opacity-40 m-0 mt-1">
-                  {view === 'create' ? selectedType?.code : 'So\'nggi kiritilgan hisobotlar'}
+                  {view === 'create' ? selectedType?.code : view === 'active' ? 'TUNELDA QOLAYOTGAN XODIMLAR' : 'So\'nggi kiritilgan hisobotlar'}
                 </p>
               </div>
             </div>
@@ -165,10 +186,15 @@ const Journals = () => {
               <Card className="card-modern border-0 p-4 p-md-10 shadow-2xl overflow-hidden">
                  <JournalForm 
                   type={selectedType} 
-                  onSuccess={() => setView('list')} 
+                  du2Action={du2Action}
+                  onSuccess={() => setView('active')} 
                   onCancel={() => setView('list')} 
                  />
               </Card>
+            ) : view === 'active' ? (
+              <div className="active-tracker shadow-2xl p-8 bg-white dark:bg-metro-card rounded-3xl">
+                <OpenDU5Tracker />
+              </div>
             ) : (
               <div className="history-table shadow-2xl">
                 <JournalHistory />
@@ -177,6 +203,46 @@ const Journals = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* DU-2 Modal */}
+      <Modal 
+        show={showDU2Modal} 
+        onHide={() => setShowDU2Modal(false)}
+        centered
+        className="modal-metro"
+      >
+        <Modal.Body className="p-10 text-center">
+          <div className="mb-8">
+            <div className="icon-badge mx-auto mb-4">
+              <BookOpen size={32} className="text-primary" />
+            </div>
+            <h3 className="text-2xl font-black uppercase italic m-0">DU-2 Jurnali</h3>
+            <p className="opacity-60 uppercase tracking-widest text-[10px] mt-2">Harakat turini tanlang</p>
+          </div>
+          
+          <div className="flex flex-col gap-4">
+            <Button 
+              className="btn-metro btn-primary py-4 text-lg"
+              onClick={() => handleDU2ActionSelect('Qabul qilish')}
+            >
+              Poyezdni qabul qilish
+            </Button>
+            <Button 
+              className="btn-metro btn-outline py-4 text-lg"
+              onClick={() => handleDU2ActionSelect('Jo‘natish')}
+            >
+              Poyezdni jo‘natish
+            </Button>
+          </div>
+          
+          <button 
+            className="mt-8 text-[10px] font-black uppercase tracking-[0.3em] opacity-30 hover:opacity-100 transition-all border-0 bg-transparent"
+            onClick={() => setShowDU2Modal(false)}
+          >
+            Bekor qilish
+          </button>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
